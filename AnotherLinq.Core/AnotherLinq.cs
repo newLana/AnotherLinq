@@ -246,7 +246,7 @@ namespace AnotherLinq.Core
                 last = item;
             }
 
-            return last == null ? default(T) : last;
+            return last;
         }
 
         public static T MyLastOrDefault<T>(this IEnumerable<T> source, Predicate<T> predicate)
@@ -261,7 +261,7 @@ namespace AnotherLinq.Core
                 }
             }
 
-            return last == null ? default(T) : last;
+            return last;
         }
 
         public static ILookup<TKey, TSource> MyToLookup<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
