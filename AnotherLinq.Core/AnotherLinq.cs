@@ -299,7 +299,7 @@ namespace AnotherLinq.Core
                 {
                     if (l[i].Equals(l[j]))
                     {
-                        l.RemoveAt(i);
+                        l.RemoveAt(i--);
                     }
                 }
                 yield return l[j];

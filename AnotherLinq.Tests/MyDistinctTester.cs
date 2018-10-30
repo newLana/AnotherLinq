@@ -22,9 +22,8 @@ namespace AnotherLinq.Tests
         }
 
         [Test]
-        public void MyDistinctReturnsElementsOfSequenceWithoutRepeatedElements()
+        public void MyDistinctReturnsElementsOfSequenceWithoutRepeatedElements([Values(new int[] { 2, 3, 4, 3, 3, 1, 2 }, new int[] { 10, 2, 3, 4, 10, 34, 55, 66, 4, 88 })] int[] numbers)
         {
-            int[] numbers = { 10, 2, 3, 4, 10, 34, 55, 66, 4, 88 };
             var actual = numbers.MyDistinct();
             var expected = numbers.Distinct();
 
