@@ -187,28 +187,22 @@ namespace AnotherLinq.Core
                 throw new ArgumentNullException(nameof(keySelector));
             }
 
-            return GroupBy(source, keySelector);
+            return source.MyToLookup(keySelector);
         }
 
-        private static IEnumerable<IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        public static ILookup<TKey, TSource> MyToLookup<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         {
-            List<TSource> srcList = source.MyToList<TSource>();
-
-            for (int j = 0; j < srcList.Count - 1; j++)
+            if (source == null)
             {
-                var set = new List<TSource>();
-                set.Add(srcList[j]);
-                var key = keySelector(srcList[j]);
-                for (int i = j + 1; i < srcList.Count; i++)
-                {
-                    if (keySelector(srcList[i]).Equals(key))
-                    {
-                        set.Add(srcList[i]);
-                        srcList.RemoveAt(i--);
-                    }
-                }
-                yield return new MyGrouping<TKey, TSource>(key, set);
+                throw new ArgumentNullException(nameof(source));
             }
+
+            if (keySelector == null)
+            {
+                throw new ArgumentNullException(nameof(keySelector));
+            }
+
+            return new MyLookup<TKey, TSource>(source, keySelector);
         }
 
         public static T MyLast<T>(this IEnumerable<T> source)
@@ -262,21 +256,6 @@ namespace AnotherLinq.Core
             }
 
             return last;
-        }
-
-        public static ILookup<TKey, TSource> MyToLookup<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (keySelector == null)
-            {
-                throw new ArgumentNullException(nameof(keySelector));
-            }
-
-            return new MyLookup<TKey, TSource>(source, keySelector);
         }
 
         public static IEnumerable<T> MyDistinct<T>(this IEnumerable<T> source)
